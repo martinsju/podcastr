@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+	@apply h-screen flex flex-col justify-start items-center gap-4 bg-gray-100;
+}
+
+.title {
+	@apply text-lg text-white;
+}
+
+.button {
+	@apply py-4 px-4 rounded-md text-base text-white bg-red-400 hover:bg-red-500 shadow-md shadow-red-950 transition-colors;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@apply font-['Inter'];
+}
+
+p,
+span,
+strong {
+	@apply font-['Lexend'];
+}
