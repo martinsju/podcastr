@@ -2,8 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	@apply p-0 m-0 box-border;
+}
+
+@media (max-width: 1080px) {
+	html {
+		@apply text-[93.75%];
+	}
+}
+
+@media (max-width: 720px) {
+	html {
+		@apply text-[87.5%];
+	}
+}
+
+body {
+	@apply bg-gray-50;
+}
+
+body,
+input,
+textarea,
+button {
+	@apply text-base font-medium font-['Inter'] text-gray-500;
+}
+
 .container {
-	@apply h-screen flex flex-col justify-start items-center gap-4 bg-gray-100;
+	@apply h-screen flex flex-col justify-start items-center gap-4;
 }
 
 .title {
@@ -11,7 +38,7 @@
 }
 
 .button {
-	@apply py-4 px-4 rounded-md text-base text-white bg-red-400 hover:bg-red-500 shadow-md shadow-red-950 transition-colors;
+	@apply py-4 px-4 rounded-md text-base text-white bg-red-400 hover:bg-red-500 shadow-md shadow-red-950 transition-colors cursor-pointer;
 }
 
 h1,
@@ -23,8 +50,20 @@ h6 {
 	@apply font-['Inter'];
 }
 
+h1 {
+	@apply text-[2rem];
+}
+
+h2 {
+	@apply text-2xl;
+}
+
 p,
 span,
 strong {
 	@apply font-['Lexend'];
+}
+
+strong {
+	@apply font-semibold;
 }
