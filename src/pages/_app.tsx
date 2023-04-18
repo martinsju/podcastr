@@ -5,8 +5,8 @@ import { Player } from '@/components/Player'
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<div className='flex flex-1'>
-			<main>
+		<div className='flex'>
+			<main className='flex-1'>
 				<Header />
 				<Component {...pageProps} />
 			</main>
