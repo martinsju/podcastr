@@ -7,7 +7,7 @@ export const Header: React.FC = () => {
 		locale: ptBR
 	})
 	return (
-		<header className='px-8 py-4 bg-white flex items-center'>
+		<header className='px-8 py-16 h-[6.5rem] bg-white flex items-center border-b-gray-100'>
 			<h3 className='text-gray-800'>Podcastr</h3>
 			<p className='text-gray-400 text-xs ml-2 px-1 border-l border-l-gray-100'>
 				O melhor pra você ouvir, sempre
