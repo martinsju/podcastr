@@ -94,43 +94,67 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 				</ul>
 			</section>
 
-			<section id='allEpisodes'>
+			<section id='allEpisodes' className='pb-8'>
 				<h2>Todos os episódios</h2>
 
-				<table cellSpacing={0}>
+				<table cellSpacing={0} className='w-full'>
 					<thead>
-						<th></th>
-						<th>Podcast</th>
-						<th>Integrantes</th>
-						<th>Data</th>
-						<th>Duração</th>
+						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '></th>
+						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
+							Podcast
+						</th>
+						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
+							Integrantes
+						</th>
+						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
+							Data
+						</th>
+						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
+							Duração
+						</th>
 					</thead>
 					<tbody>
 						{allEpisodes.map((episode) => {
 							return (
 								<tr key={episode.id}>
-									<td>
+									<td className='py-3 px-4 border-b border-gray-100 text-sm w-[72px]'>
 										<Image
 											width={120}
 											height={120}
 											src={episode.thumbnail}
 											alt={episode.title}
 											style={{ objectFit: 'cover' }}
+											className='w-10 h-10 rounded-lg'
 										/>
 									</td>
-									<td>
-										<a href=''>{episode.title}</a>
+									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
+										<a
+											href=''
+											className='text-base text-gray-800 font-[Lexend] font-semibold no-underline leading-[1.4rem] hover:underline'
+										>
+											{episode.title}
+										</a>
 									</td>
-									<td>{episode.members}</td>
-									<td>{episode.publishedAt}</td>
-									<td>{episode.durationAsString}</td>
-									<td>
-										<button type='button'>
+									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
+										{episode.members}
+									</td>
+									<td className='py-3 px-4 border-b border-gray-100 text-sm w-[100px]'>
+										{episode.publishedAt}
+									</td>
+									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
+										{episode.durationAsString}
+									</td>
+									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
+										<button
+											type='button'
+											className='w-8 h-8 bg-white border border-gray-100 rounded-lg text-[0] transition duration-200 hover:brightness-95'
+										>
 											<Image
 												width={120}
 												height={120}
 												src='/play-green.svg'
 												alt='Tocar episódio'
+												className='w-5 h-5 rounded-lg m-auto'
 											/>
 										</button>
 									</td>
