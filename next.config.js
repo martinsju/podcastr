@@ -2,14 +2,7 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: 'storage.googleapis.com',
-				port: '',
-				pathname: '/**'
-			}
-		]
+		domains: ['storage.googleapis.com']
 	}
 }
 //https://storage.googleapis.com/golden-wind/nextlevelweek/05-podcastr/opensource.jpg
