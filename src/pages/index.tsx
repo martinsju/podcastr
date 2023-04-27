@@ -4,6 +4,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { api } from '@/components/services/api'
 import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type Episode = {
 	id: string
@@ -13,7 +14,6 @@ type Episode = {
 	publishedAt: string
 	url: string
 	durationAsString: string
-	description: string
 }
 
 type HomeProps = {
@@ -31,7 +31,6 @@ type EpisodeData = {
 		duration: number
 		url: string
 	}
-	description: string
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
@@ -58,10 +57,13 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 									className='w-24 h-24 rounded-2xl'
 								/>
 
-								<div id='episodeDetails' className='flex-1 ml-4'>
+								<div
+									id='episodeDetails'
+									className='flex-1 overflow-hidden ml-4'
+								>
 									<a
 										href=''
-										className='block text-gray-800 leading-[1.4rem] font-semibold no-underline hover:underline'
+										className='block text-gray-800 leading-[1.4rem] font-semibold no-underline hover:underline '
 									>
 										{episode.title}
 									</a>
@@ -99,19 +101,22 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
 				<table cellSpacing={0} className='w-full'>
 					<thead>
-						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '></th>
-						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
-							Podcast
-						</th>
-						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
-							Integrantes
-						</th>
-						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
-							Data
-						</th>
-						<th className='py-3 px-4 border-b border-gray-100 text-gray-200 uppercase text-xs font-medium font-[Lexend] text-left '>
-							Duração
-						</th>
+						<tr>
+							<th className='py-3 px-4 border-b border-gray-100 text-gray-300 uppercase text-xs font-medium font-secondary text-left '></th>
+							<th className='py-3 px-4 border-b border-gray-100 text-gray-300 uppercase text-xs font-medium font-secondary text-left '>
+								Podcast
+							</th>
+							<th className='py-3 px-4 border-b border-gray-100 text-gray-300 uppercase text-xs font-medium font-secondary text-left '>
+								Integrantes
+							</th>
+							<th className='py-3 px-4 border-b border-gray-100 text-gray-300 uppercase text-xs font-medium font-secondary text-left '>
+								Data
+							</th>
+							<th className='py-3 px-4 border-b border-gray-100 text-gray-300 uppercase text-xs font-medium font-secondary text-left '>
+								Duração
+							</th>
+							<th className='py-3 px-4 border-b border-gray-100 text-gray-300 uppercase text-xs font-medium font-secondary text-left '></th>
+						</tr>
 					</thead>
 					<tbody>
 						{allEpisodes.map((episode) => {
@@ -128,12 +133,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 										/>
 									</td>
 									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
-										<a
-											href=''
+										<Link
+											href={`/episodes/${episode.id}`}
 											className='text-base text-gray-800 font-[Lexend] font-semibold no-underline leading-[1.4rem] hover:underline'
 										>
 											{episode.title}
-										</a>
+										</Link>
 									</td>
 									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
 										{episode.members}
@@ -191,7 +196,6 @@ export const getStaticProps: GetStaticProps = async () => {
 			durationAsString: convertDurationToTimeString(
 				Number(episode.file.duration)
 			),
-			description: episode.description,
 			url: episode.file.url
 		}
 	})
