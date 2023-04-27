@@ -6,6 +6,7 @@ import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import { ParsedUrlQuery } from 'querystring'
+import Image from 'next/image'
 
 interface IParams extends ParsedUrlQuery {
 	slug: string
@@ -23,11 +24,49 @@ type Episode = {
 }
 
 type EpisodeProps = {
-	episode: Array<Episode>
+	episode: Episode
 }
 
 export default function Episode({ episode }: EpisodeProps) {
-	return <h1>{}</h1>
+	return (
+		<div
+			id='episode'
+			className='py-0 px-16 h-[calc(100vh-6.5rem)] overflow-y-scroll'
+		>
+			<div id='thumbnailContainer'>
+				<button type='button'>
+					<Image width={192} height={192} src='/arrow-left.svg' alt='Voltar' />
+				</button>
+				<Image
+					width={700}
+					height={160}
+					src={episode.thumbnail}
+					alt={episode.title}
+					style={{ objectFit: 'cover' }}
+				/>
+				<button type='button'>
+					<Image
+						width={192}
+						height={192}
+						src='/play.svg'
+						alt='Tocar episódio'
+					/>
+				</button>
+			</div>
+
+			<header>
+				<h1>{episode.title}</h1>
+				<span>{episode.members}</span>
+				<span>{episode.publishedAt}</span>
+				<span>{episode.durationAsString}</span>
+			</header>
+
+			<div
+				id='description'
+				dangerouslySetInnerHTML={{ __html: episode.description }}
+			/>
+		</div>
+	)
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
