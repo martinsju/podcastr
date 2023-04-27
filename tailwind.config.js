@@ -15,7 +15,9 @@ module.exports = {
 				'gradient-143.8': 'linear-gradient(143.8deg, var(--tw-gradient-stops))'
 			},
 			fontFamily: {
-				sans: ['Inter', 'Lexend']
+				sans: ['Inter', 'Lexend'],
+				primary: ['Inter', 'sans-serif'],
+				secondary: ['Lexend', 'sans-serif']
 			}
 		}
 	},
