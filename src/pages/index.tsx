@@ -5,20 +5,23 @@ import { api } from '@/components/services/api'
 import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useContext } from 'react'
+import { PlayerContext } from '@/contexts/PlayerContext'
 
-type Episode = {
+type EpisodeHome = {
 	id: string
 	title: string
 	thumbnail: string
 	members: string
 	publishedAt: string
 	url: string
+	duration: number
 	durationAsString: string
 }
 
 type HomeProps = {
-	latestEpisodes: Array<Episode>
-	allEpisodes: Array<Episode>
+	latestEpisodes: Array<EpisodeHome>
+	allEpisodes: Array<EpisodeHome>
 }
 
 type EpisodeData = {
@@ -34,6 +37,8 @@ type EpisodeData = {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+	const { episodeList, currentEpisodeIndex, play } = useContext(PlayerContext)
+
 	return (
 		<div
 			id='homePage'
@@ -80,6 +85,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
 								<button
 									type='button'
+									onClick={() => play(episode)}
 									className='absolute right-8 bottom-8 w-10 h-10 bg-white border border-gray-100 rounded-[0.675rem] text-[0] transition duration-200 hover:brightness-95'
 								>
 									<Image
