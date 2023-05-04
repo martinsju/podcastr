@@ -6,9 +6,10 @@ type PlayerButtonProps = {
 	src: string
 	alt: string
 	playButton?: boolean
+	togglePlay?: () => void
 }
 
-function PlayerButton({ src, alt, playButton }: PlayerButtonProps) {
+function PlayerButton({ src, alt, playButton, togglePlay }: PlayerButtonProps) {
 	const { episodeList, currentEpisodeIndex } = useContext(PlayerContext)
 	const episode = episodeList[currentEpisodeIndex]
 
@@ -16,6 +17,7 @@ function PlayerButton({ src, alt, playButton }: PlayerButtonProps) {
 		<button
 			type='button'
 			disabled={!episode}
+			onClick={togglePlay}
 			className={` border-0 text-[0] transition duration-200 hover:brightness-90 disabled:brightness-100 ${
 				playButton
 					? 'w-16 h-16 flex justify-center items-center rounded-2xl bg-blue-400 hover:brightness-95'

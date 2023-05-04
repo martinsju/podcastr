@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { PlayerContext } from '@/contexts/PlayerContext'
 import Slider from 'rc-slider'
@@ -6,8 +6,28 @@ import 'rc-slider/assets/index.css'
 import PlayerButton from '../PlayerButton'
 
 export const Player: React.FC = () => {
-	const { episodeList, currentEpisodeIndex } = useContext(PlayerContext)
+	const audioRef = useRef<HTMLAudioElement>(null)
+
+	const { episodeList, currentEpisodeIndex, isPlaying, togglePlay } =
+		useContext(PlayerContext)
+
 	const episode = episodeList[currentEpisodeIndex]
+
+	const playOrPauseIcon = isPlaying ? '/pause.svg' : '/play.svg'
+
+	useEffect(() => {
+		if (!audioRef.current) {
+			return
+		}
+
+		if (isPlaying) {
+			audioRef.current.play()
+			console.log('playing: ', isPlaying)
+		} else {
+			audioRef.current.pause()
+			console.log('playing: ', isPlaying)
+		}
+	}, [isPlaying])
 
 	return (
 		<div className='py-12 px-16 w-[26.5rem] h-screen flex flex-col items-center justify-between bg-blue-500 text-white'>
@@ -60,6 +80,8 @@ export const Player: React.FC = () => {
 					<span>00:00</span>
 				</div>
 
+				{episode && <audio src={episode.url} ref={audioRef} autoPlay />}
+
 				<div
 					id='buttons'
 					className='flex items-center justify-center
@@ -67,7 +89,12 @@ export const Player: React.FC = () => {
 				>
 					<PlayerButton src='/shuffle.svg' alt='Embaralhar' />
 					<PlayerButton src='/play-previous.svg' alt='Tocar anterior' />
-					<PlayerButton src='/play.svg' alt='Tocar' playButton />
+					<PlayerButton
+						src={playOrPauseIcon}
+						alt='Tocar'
+						togglePlay={togglePlay}
+						playButton
+					/>
 					<PlayerButton src='/play-next.svg' alt='Tocar próxima' />
 					<PlayerButton src='/repeat.svg' alt='Repetir' />
 				</div>

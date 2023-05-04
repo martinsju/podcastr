@@ -24,11 +24,14 @@ export default function App({ Component, pageProps }: AppProps) {
 		setIsPlaying(true)
 		console.log('clicou no episodio ', episode.title)
 	}
-	//passa função play pelo context tambem
+
+	function togglePlay() {
+		setIsPlaying((isPlaying) => !isPlaying)
+	}
 
 	return (
 		<PlayerContext.Provider
-			value={{ episodeList, currentEpisodeIndex, play, isPlaying }}
+			value={{ episodeList, currentEpisodeIndex, play, isPlaying, togglePlay }}
 		>
 			<div className='flex'>
 				<main className='flex-1'>
