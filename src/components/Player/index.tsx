@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { PlayerContext } from '@/contexts/PlayerContext'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
+import PlayerButton from '../PlayerButton'
 
 export const Player: React.FC = () => {
 	const { episodeList, currentEpisodeIndex } = useContext(PlayerContext)
@@ -64,56 +65,11 @@ export const Player: React.FC = () => {
 					className='flex items-center justify-center
 				 mt-10 gap-6'
 				>
-					<button
-						type='button'
-						disabled={!episode}
-						className='bg-transparent border-0 text-[0] transition duration-200 hover:brightness-90 disabled:brightness-100'
-					>
-						<Image width={20} height={20} src='/shuffle.svg' alt='Embaralhar' />
-					</button>
-
-					<button
-						type='button'
-						disabled={!episode}
-						className='bg-transparent border-0 text-[0] transition duration-200 hover:brightness-90 disabled:brightness-100'
-					>
-						<Image
-							width={20}
-							height={20}
-							src='/play-previous.svg'
-							alt='Tocar anterior'
-						/>
-					</button>
-
-					<button
-						type='button'
-						id='playButton'
-						disabled={!episode}
-						className='w-16 h-16 flex justify-center items-center border-0 rounded-2xl text-[0] bg-blue-400 transition duration-200 hover:brightness-95 disabled:brightness-100'
-					>
-						<Image width={20} height={20} src='/play.svg' alt='Tocar' />
-					</button>
-
-					<button
-						type='button'
-						disabled={!episode}
-						className='bg-transparent border-0 text-[0] transition duration-200 hover:brightness-90 disabled:brightness-100'
-					>
-						<Image
-							width={20}
-							height={20}
-							src='/play-next.svg'
-							alt='Tocar próxima'
-						/>
-					</button>
-
-					<button
-						type='button'
-						disabled={!episode}
-						className='bg-transparent border-0 text-[0] transition duration-200 hover:brightness-90 disabled:brightness-100'
-					>
-						<Image width={20} height={20} src='/repeat.svg' alt='Repetir' />
-					</button>
+					<PlayerButton src='/shuffle.svg' alt='Embaralhar' />
+					<PlayerButton src='/play-previous.svg' alt='Tocar anterior' />
+					<PlayerButton src='/play.svg' alt='Tocar' playButton />
+					<PlayerButton src='/play-next.svg' alt='Tocar próxima' />
+					<PlayerButton src='/repeat.svg' alt='Repetir' />
 				</div>
 			</footer>
 		</div>
