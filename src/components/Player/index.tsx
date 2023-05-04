@@ -80,7 +80,15 @@ export const Player: React.FC = () => {
 					<span>00:00</span>
 				</div>
 
-				{episode && <audio src={episode.url} ref={audioRef} autoPlay />}
+				{episode && (
+					<audio
+						src={episode.url}
+						ref={audioRef}
+						onPlay={() => togglePlay}
+						onPause={() => togglePlay}
+						autoPlay
+					/>
+				)}
 
 				<div
 					id='buttons'
