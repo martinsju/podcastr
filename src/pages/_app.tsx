@@ -16,16 +16,20 @@ type EpisodeApp = {
 export default function App({ Component, pageProps }: AppProps) {
 	const [episodeList, setEpisodeList] = useState<Array<EpisodeApp>>([])
 	const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
+	const [isPlaying, setIsPlaying] = useState(true)
 
 	function play(episode: EpisodeApp) {
 		setEpisodeList([episode])
 		setCurrentEpisodeIndex(0)
+		setIsPlaying(true)
 		console.log('clicou no episodio ', episode.title)
 	}
 	//passa função play pelo context tambem
 
 	return (
-		<PlayerContext.Provider value={{ episodeList, currentEpisodeIndex, play }}>
+		<PlayerContext.Provider
+			value={{ episodeList, currentEpisodeIndex, play, isPlaying }}
+		>
 			<div className='flex'>
 				<main className='flex-1'>
 					<Header />

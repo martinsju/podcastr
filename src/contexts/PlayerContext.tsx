@@ -13,6 +13,7 @@ type PlayerContextData = {
 	episodeList: Array<EpisodeContext>
 	currentEpisodeIndex: number
 	//currentEpisode is an array position
+	isPlaying: boolean
 	play: (episode: EpisodeContext) => void
 }
 
