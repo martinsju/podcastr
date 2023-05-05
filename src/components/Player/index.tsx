@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
-import { PlayerContext } from '@/contexts/PlayerContext'
+import { usePlayer } from '@/contexts/PlayerContext'
 import PlayerButton from '../PlayerButton'
 
 import Slider from 'rc-slider'
@@ -14,13 +14,14 @@ export const Player: React.FC = () => {
 		episodeList,
 		currentEpisodeIndex,
 		isPlaying,
+		isLooping,
 		togglePlay,
 		setPlayingState,
 		playNext,
 		playPrevious,
 		hasNext,
 		hasPrevious
-	} = useContext(PlayerContext)
+	} = usePlayer()
 
 	useEffect(() => {
 		if (!audioRef.current) {
@@ -100,6 +101,7 @@ export const Player: React.FC = () => {
 					<audio
 						src={episode.url}
 						ref={audioRef}
+						loop={isLooping}
 						autoPlay
 						onPlay={() => setPlayingState(true)}
 						onPause={() => setPlayingState(false)}

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { api } from '@/components/services/api'
 import { format, parseISO } from 'date-fns'
@@ -7,6 +6,8 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import { ParsedUrlQuery } from 'querystring'
 import Image from 'next/image'
+import { usePlayer } from '@/contexts/PlayerContext'
+import Link from 'next/link'
 
 interface IParams extends ParsedUrlQuery {
 	slug: string
@@ -19,6 +20,7 @@ type Episode = {
 	members: string
 	publishedAt: string
 	url: string
+	duration: number
 	durationAsString: string
 	description: string
 }
@@ -28,6 +30,8 @@ type EpisodeProps = {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
+	const { play } = usePlayer()
+
 	return (
 		<div id='container' className='w-full overflow-y-scroll'>
 			<div
@@ -35,18 +39,20 @@ export default function Episode({ episode }: EpisodeProps) {
 				className='py-12 px-8 max-w-[45rem] h-[calc(100vh-6.5rem)] my-0 mx-auto'
 			>
 				<div id='thumbnailContainer' className='relative'>
-					<button
-						type='button'
-						className='w-12 h-12 p-3 text-[0] rounded-xl border-0 absolute z-[5] transition duration-200 hover:brightness-95 left-0 top-1/2 bg-blue-500 -translate-x-1/2 -translate-y-1/2'
-					>
-						<Image
-							width={192}
-							height={192}
-							src='/arrow-left.svg'
-							alt='Voltar'
-							className='rounded-2xl'
-						/>
-					</button>
+					<Link href={'/'}>
+						<button
+							type='button'
+							className='w-12 h-12 p-3 text-[0] rounded-xl border-0 absolute z-[5] transition duration-200 hover:brightness-95 left-0 top-1/2 bg-blue-500 -translate-x-1/2 -translate-y-1/2'
+						>
+							<Image
+								width={192}
+								height={192}
+								src='/arrow-left.svg'
+								alt='Voltar'
+								className='rounded-2xl'
+							/>
+						</button>
+					</Link>
 					<Image
 						width={700}
 						height={160}
@@ -57,6 +63,7 @@ export default function Episode({ episode }: EpisodeProps) {
 					/>
 					<button
 						type='button'
+						onClick={() => play(episode)}
 						className='w-12 h-12 p-3 text-[0] rounded-xl border-0 absolute z-[5] transition duration-200 hover:brightness-95 right-0 top-1/2 bg-green-500 translate-x-1/2 -translate-y-1/2'
 					>
 						<Image
