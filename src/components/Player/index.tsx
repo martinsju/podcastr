@@ -1,19 +1,25 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import Image from 'next/image'
+
 import { PlayerContext } from '@/contexts/PlayerContext'
+import PlayerButton from '../PlayerButton'
+
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
-import PlayerButton from '../PlayerButton'
 
 export const Player: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null)
 
-	const { episodeList, currentEpisodeIndex, isPlaying, togglePlay } =
-		useContext(PlayerContext)
-
-	const episode = episodeList[currentEpisodeIndex]
-
-	const playOrPauseIcon = isPlaying ? '/pause.svg' : '/play.svg'
+	const {
+		episodeList,
+		currentEpisodeIndex,
+		isPlaying,
+		togglePlay,
+		playNext,
+		playPrevious,
+		hasNext,
+		hasPrevious
+	} = useContext(PlayerContext)
 
 	useEffect(() => {
 		if (!audioRef.current) {
@@ -28,6 +34,10 @@ export const Player: React.FC = () => {
 			console.log('playing: ', isPlaying)
 		}
 	}, [isPlaying])
+
+	const episode = episodeList[currentEpisodeIndex]
+
+	const playOrPauseIcon = isPlaying ? '/pause.svg' : '/play.svg'
 
 	return (
 		<div className='py-12 px-16 w-[26.5rem] h-screen flex flex-col items-center justify-between bg-blue-500 text-white'>
@@ -96,14 +106,24 @@ export const Player: React.FC = () => {
 				 mt-10 gap-6'
 				>
 					<PlayerButton src='/shuffle.svg' alt='Embaralhar' />
-					<PlayerButton src='/play-previous.svg' alt='Tocar anterior' />
+					<PlayerButton
+						src='/play-previous.svg'
+						alt='Tocar anterior'
+						handleClick={playPrevious}
+						shouldBeDisabled={!hasPrevious}
+					/>
 					<PlayerButton
 						src={playOrPauseIcon}
 						alt='Tocar'
-						togglePlay={togglePlay}
+						handleClick={togglePlay}
 						playButton
 					/>
-					<PlayerButton src='/play-next.svg' alt='Tocar próxima' />
+					<PlayerButton
+						src='/play-next.svg'
+						alt='Tocar próxima'
+						handleClick={playNext}
+						shouldBeDisabled={!hasNext}
+					/>
 					<PlayerButton src='/repeat.svg' alt='Repetir' />
 				</div>
 			</footer>

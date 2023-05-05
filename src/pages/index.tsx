@@ -37,7 +37,9 @@ type EpisodeData = {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-	const { episodeList, currentEpisodeIndex, play } = useContext(PlayerContext)
+	const { playList } = useContext(PlayerContext)
+
+	const episodeList = [...latestEpisodes, ...allEpisodes]
 
 	return (
 		<div
@@ -47,7 +49,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 			<section id='lastEpisodes'>
 				<h2 className='mt-12 mb-6'>Últimos lançamentos</h2>
 				<ul className='list-none grid grid-cols-2 gap-6'>
-					{latestEpisodes.map((episode) => {
+					{latestEpisodes.map((episode, index) => {
 						return (
 							<li
 								key={episode.id}
@@ -85,7 +87,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
 								<button
 									type='button'
-									onClick={() => play(episode)}
+									onClick={() => playList(episodeList, index)}
 									className='absolute right-8 bottom-8 w-10 h-10 bg-white border border-gray-100 rounded-[0.675rem] text-[0] transition duration-200 hover:brightness-95'
 								>
 									<Image
@@ -125,7 +127,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 						</tr>
 					</thead>
 					<tbody>
-						{allEpisodes.map((episode) => {
+						{allEpisodes.map((episode, index) => {
 							return (
 								<tr key={episode.id}>
 									<td className='py-3 px-4 border-b border-gray-100 text-sm w-[72px]'>
@@ -158,6 +160,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
 										<button
 											type='button'
+											onClick={() =>
+												playList(episodeList, index + allEpisodes.length)
+											}
 											className='w-8 h-8 bg-white border border-gray-100 rounded-lg text-[0] transition duration-200 hover:brightness-95'
 										>
 											<Image
