@@ -15,6 +15,7 @@ export const Player: React.FC = () => {
 		currentEpisodeIndex,
 		isPlaying,
 		togglePlay,
+		setPlayingState,
 		playNext,
 		playPrevious,
 		hasNext,
@@ -94,9 +95,9 @@ export const Player: React.FC = () => {
 					<audio
 						src={episode.url}
 						ref={audioRef}
-						onPlay={() => togglePlay}
-						onPause={() => togglePlay}
 						autoPlay
+						onPlay={() => setPlayingState(true)}
+						onPause={() => setPlayingState(false)}
 					/>
 				)}
 
