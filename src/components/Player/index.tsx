@@ -71,8 +71,13 @@ export const Player: React.FC = () => {
 				</div>
 			)}
 
-			<footer className={`self-stretch ${!episode ? 'opacity-50' : ''}`}>
-				<div id='progress' className='flex items-center gap-4 text-sm'>
+			<footer className='self-stretch'>
+				<div
+					id='progress'
+					className={`flex items-center gap-4 text-sm ${
+						!episode ? 'opacity-50' : ''
+					}`}
+				>
 					<span>00:00</span>
 					<div id='slider' className='flex-1 '>
 						{episode ? (
