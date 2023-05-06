@@ -68,12 +68,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 									id='episodeDetails'
 									className='flex-1 overflow-hidden ml-4'
 								>
-									<a
-										href=''
+									<Link
+										href={`/episodes/${episode.id}`}
 										className='block text-gray-800 leading-[1.4rem] font-semibold no-underline hover:underline '
 									>
 										{episode.title}
-									</a>
+									</Link>
 									<p className='text-sm mt-2 max-w-[70%] whitespace-nowrap overflow-hidden text-ellipsis'>
 										{episode.members}
 									</p>
