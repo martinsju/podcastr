@@ -39,7 +39,7 @@ export const PlayerContextProvider = ({
 }: PlayerContextProviderProps) => {
 	const [episodeList, setEpisodeList] = useState<Array<EpisodeContext>>([])
 	const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
-	const [isPlaying, setIsPlaying] = useState(true)
+	const [isPlaying, setIsPlaying] = useState(false)
 	const [isLooping, setIsLooping] = useState(false)
 	const [isShuffling, setIsShuffling] = useState(false)
 
