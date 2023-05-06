@@ -16,6 +16,7 @@ export const Player: React.FC = () => {
 		isPlaying,
 		isLooping,
 		togglePlay,
+		toggleLoop,
 		setPlayingState,
 		playNext,
 		playPrevious,
@@ -40,6 +41,7 @@ export const Player: React.FC = () => {
 	const episode = episodeList[currentEpisodeIndex]
 
 	const playOrPauseIcon = isPlaying ? '/pause.svg' : '/play.svg'
+	const repeatIcon = isLooping ? '/repeat-green.svg' : '/repeat.svg'
 
 	return (
 		<div className='py-12 px-16 w-[26.5rem] h-screen flex flex-col items-center justify-between bg-blue-500 text-white'>
@@ -132,7 +134,11 @@ export const Player: React.FC = () => {
 						handleClick={playNext}
 						shouldBeDisabled={!hasNext}
 					/>
-					<PlayerButton src='/repeat.svg' alt='Repetir' />
+					<PlayerButton
+						src={repeatIcon}
+						alt='Repetir'
+						handleClick={toggleLoop}
+					/>
 				</div>
 			</footer>
 		</div>
