@@ -15,8 +15,10 @@ export const Player: React.FC = () => {
 		currentEpisodeIndex,
 		isPlaying,
 		isLooping,
+		isShuffling,
 		togglePlay,
 		toggleLoop,
+		toggleShuffle,
 		setPlayingState,
 		playNext,
 		playPrevious,
@@ -40,8 +42,9 @@ export const Player: React.FC = () => {
 
 	const episode = episodeList[currentEpisodeIndex]
 
-	const playOrPauseIcon = isPlaying ? '/pause.svg' : '/play.svg'
-	const repeatIcon = isLooping ? '/repeat-green.svg' : '/repeat.svg'
+	const PLAY_OR_PAUSE_ICON = isPlaying ? '/pause.svg' : '/play.svg'
+	const REPEAT_ICON = isLooping ? '/repeat-green.svg' : '/repeat.svg'
+	const SHUFFLE_ICON = isShuffling ? '/shuffle-green.svg' : '/shuffle.svg'
 
 	return (
 		<div className='py-12 px-16 w-[26.5rem] h-screen flex flex-col items-center justify-between bg-blue-500 text-white'>
@@ -115,7 +118,12 @@ export const Player: React.FC = () => {
 					className='flex items-center justify-center
 				 mt-10 gap-6'
 				>
-					<PlayerButton src='/shuffle.svg' alt='Embaralhar' />
+					<PlayerButton
+						src={SHUFFLE_ICON}
+						alt='Embaralhar'
+						handleClick={toggleShuffle}
+						shouldBeDisabled={episodeList.length === 1}
+					/>
 					<PlayerButton
 						src='/play-previous.svg'
 						alt='Tocar anterior'
@@ -123,7 +131,7 @@ export const Player: React.FC = () => {
 						shouldBeDisabled={!hasPrevious}
 					/>
 					<PlayerButton
-						src={playOrPauseIcon}
+						src={PLAY_OR_PAUSE_ICON}
 						alt='Tocar'
 						handleClick={togglePlay}
 						playButton
@@ -135,7 +143,7 @@ export const Player: React.FC = () => {
 						shouldBeDisabled={!hasNext}
 					/>
 					<PlayerButton
-						src={repeatIcon}
+						src={REPEAT_ICON}
 						alt='Repetir'
 						handleClick={toggleLoop}
 					/>
