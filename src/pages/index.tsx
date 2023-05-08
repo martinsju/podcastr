@@ -160,9 +160,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
 										<button
 											type='button'
-											onClick={() =>
-												playList(episodeList, index + allEpisodes.length)
-											}
+											onClick={() => playList(episodeList, index + 2)}
 											className='w-8 h-8 bg-white border border-gray-100 rounded-lg text-[0] transition duration-200 hover:brightness-95'
 										>
 											<Image
