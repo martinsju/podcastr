@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
 import { usePlayer } from '@/contexts/PlayerContext'
@@ -6,9 +6,11 @@ import PlayerButton from '../PlayerButton'
 
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
+import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 
 export const Player: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null)
+	const [progress, setProgress] = useState(0)
 
 	const {
 		episodeList,
@@ -22,6 +24,7 @@ export const Player: React.FC = () => {
 		setPlayingState,
 		playNext,
 		playPrevious,
+		clearPlayerState,
 		hasNext,
 		hasPrevious
 	} = usePlayer()
@@ -33,12 +36,34 @@ export const Player: React.FC = () => {
 
 		if (isPlaying) {
 			audioRef.current.play()
-			console.log('playing: ', isPlaying)
 		} else {
 			audioRef.current.pause()
-			console.log('playing: ', isPlaying)
 		}
 	}, [isPlaying])
+
+	function setupProgressListener() {
+		if (audioRef && audioRef.current) {
+			audioRef.current.currentTime = 0
+			audioRef.current.addEventListener('timeupdate', () => {
+				setProgress(Math.floor(audioRef.current?.currentTime ?? 0))
+			})
+		}
+	}
+
+	function handleSliderBar(amount: number | number[]) {
+		if (audioRef && audioRef.current && typeof amount === 'number') {
+			audioRef.current.currentTime = amount
+			setProgress(amount)
+		}
+	}
+
+	function handleEpisodeEnded() {
+		if (hasNext) {
+			playNext()
+		} else {
+			clearPlayerState()
+		}
+	}
 
 	const episode = episodeList[currentEpisodeIndex]
 
@@ -84,10 +109,14 @@ export const Player: React.FC = () => {
 						!episode ? 'opacity-50' : ''
 					}`}
 				>
-					<span>00:00</span>
+					<span>{convertDurationToTimeString(progress)}</span>
 					<div id='slider' className='flex-1 '>
 						{episode ? (
 							<Slider
+								min={0}
+								max={episode.duration}
+								value={progress}
+								onChange={handleSliderBar}
 								trackStyle={{ backgroundColor: '#04d361' }}
 								railStyle={{ backgroundColor: '#60A5FA' }}
 								handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
@@ -99,7 +128,7 @@ export const Player: React.FC = () => {
 							></div>
 						)}
 					</div>
-					<span>00:00</span>
+					<span>{convertDurationToTimeString(episode?.duration ?? 0)}</span>
 				</div>
 
 				{episode && (
@@ -110,6 +139,8 @@ export const Player: React.FC = () => {
 						autoPlay
 						onPlay={() => setPlayingState(true)}
 						onPause={() => setPlayingState(false)}
+						onEnded={handleEpisodeEnded}
+						onLoadedMetadata={setupProgressListener}
 					/>
 				)}
 
