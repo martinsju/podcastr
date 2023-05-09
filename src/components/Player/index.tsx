@@ -78,6 +78,12 @@ export const Player: React.FC = () => {
 	return (
 		<div className='py-12 px-16 w-[26.5rem] h-screen flex flex-col items-center justify-between bg-blue-500 text-white'>
 			<header className='flex items-center gap-4'>
+				<Image
+					width={32}
+					height={32}
+					src='/Headphone.svg'
+					alt='Tocando agora'
+				/>
 				<strong>Tocando agora</strong>
 			</header>
 			{episode ? (
