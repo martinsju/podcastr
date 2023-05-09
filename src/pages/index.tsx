@@ -1,11 +1,12 @@
 import { api } from '@/components/services/api'
-import { EpisodeContext, usePlayer } from '@/contexts/PlayerContext'
+import { usePlayer } from '@/contexts/PlayerContext'
 import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
 import React from 'react'
 
 interface EpisodeHome {
@@ -48,6 +49,9 @@ const Home: React.FC<HomeProps> = ({ latestEpisodes, allEpisodes }) => {
 			id='homePage'
 			className='py-0 px-16 h-[calc(100vh-6.5rem)] overflow-y-scroll '
 		>
+			<Head>
+				<title>Home | Podcastr</title>
+			</Head>
 			<section id='latestEpisodes'>
 				<h2 className='mt-12 mb-6'>Últimos lançamentos</h2>
 				<ul className='list-none grid grid-cols-2 gap-6'>

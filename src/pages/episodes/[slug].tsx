@@ -6,6 +6,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
 
@@ -29,11 +30,14 @@ interface EpisodeProps {
 	episode: Episode
 }
 
-export const Episode: React.FC<EpisodeProps> = ({ episode }) => {
+const Episode: React.FC<EpisodeProps> = ({ episode }) => {
 	const [, { play }] = usePlayer()
 
 	return (
 		<div id='container' className='w-full overflow-y-scroll'>
+			<Head>
+				<title>{episode.title} | Podcastr</title>
+			</Head>
 			<div
 				id='episode'
 				className='py-12 px-8 max-w-[45rem] h-[calc(100vh-6.5rem)] my-0 mx-auto'
@@ -152,3 +156,5 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 		revalidate: 60 * 60 * 24 // 24 hours
 	}
 }
+
+export default Episode
