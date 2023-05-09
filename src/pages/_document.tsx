@@ -10,7 +10,6 @@ export default function Document() {
 					href='https://fonts.googleapis.com/css2?family=Inter&family=Lexend:wght@500;600&display=swap'
 					rel='stylesheet'
 				/>
-				<link rel='shortcut icon' href='/favicon.svg' type='image/svg' />
 			</Head>
 			<body>
 				<Main />
