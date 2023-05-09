@@ -1,36 +1,36 @@
-import React from 'react'
-import { GetStaticPaths, GetStaticProps } from 'next'
 import { api } from '@/components/services/api'
+import { usePlayer } from '@/contexts/PlayerContext'
+import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
-import { ParsedUrlQuery } from 'querystring'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
-import { usePlayer } from '@/contexts/PlayerContext'
 import Link from 'next/link'
+import { ParsedUrlQuery } from 'querystring'
+import React from 'react'
 
 interface IParams extends ParsedUrlQuery {
 	slug: string
 }
 
-type Episode = {
+interface Episode {
 	id: string
 	title: string
-	thumbnail: string
 	members: string
 	publishedAt: string
+	thumbnail: string
+	description: string
 	url: string
 	duration: number
 	durationAsString: string
-	description: string
 }
 
-type EpisodeProps = {
+interface EpisodeProps {
 	episode: Episode
 }
 
-export default function Episode({ episode }: EpisodeProps) {
-	const { play } = usePlayer()
+export const Episode: React.FC<EpisodeProps> = ({ episode }) => {
+	const [, { play }] = usePlayer()
 
 	return (
 		<div id='container' className='w-full overflow-y-scroll'>
@@ -58,8 +58,8 @@ export default function Episode({ episode }: EpisodeProps) {
 						height={160}
 						src={episode.thumbnail}
 						alt={episode.title}
-						style={{ objectFit: 'cover' }}
 						className='rounded-2xl w-[700px] h-[160px]'
+						style={{ objectFit: 'cover' }}
 					/>
 					<button
 						type='button'
@@ -117,7 +117,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	})
 
 	return {
-		paths: [],
+		paths,
 		fallback: 'blocking'
 		//fallback: true -> runs request on client side
 		//fallback: 'blocking' -> runs request on node.js (next side)
@@ -134,15 +134,15 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	const episode = {
 		id: data.id,
 		title: data.title,
-		thumbnail: data.thumbnail,
 		members: data.members,
 		publishedAt: format(parseISO(data.published_at), 'd MMM yy', {
 			locale: ptBR
 		}),
-		duration: Number(data.file.duration),
-		durationAsString: convertDurationToTimeString(Number(data.file.duration)),
+		thumbnail: data.thumbnail,
 		description: data.description,
-		url: data.file.url
+		url: data.file.url,
+		duration: Number(data.file.duration),
+		durationAsString: convertDurationToTimeString(Number(data.file.duration))
 	}
 
 	return {

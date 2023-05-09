@@ -1,33 +1,37 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { usePlayer } from '@/contexts/PlayerContext'
 import PlayerButton from '../PlayerButton'
 
+import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
-import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 
 export const Player: React.FC = () => {
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const [progress, setProgress] = useState(0)
 
-	const {
-		episodeList,
-		currentEpisodeIndex,
-		isPlaying,
-		isLooping,
-		isShuffling,
-		togglePlay,
-		toggleLoop,
-		toggleShuffle,
-		setPlayingState,
-		playNext,
-		playPrevious,
-		clearPlayerState,
-		hasNext,
-		hasPrevious
-	} = usePlayer()
+	const [
+		{
+			episodeList,
+			currentEpisodeIndex,
+			isPlaying,
+			isLooping,
+			isShuffling,
+			hasNext,
+			hasPrevious
+		},
+		{
+			togglePlay,
+			toggleLoop,
+			toggleShuffle,
+			setPlayingState,
+			playNext,
+			playPrevious,
+			clearPlayerState
+		}
+	] = usePlayer()
 
 	useEffect(() => {
 		if (!audioRef.current) {

@@ -1,43 +1,45 @@
-import { GetStaticProps } from 'next'
+import { api } from '@/components/services/api'
+import { EpisodeContext, usePlayer } from '@/contexts/PlayerContext'
+import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { api } from '@/components/services/api'
-import { convertDurationToTimeString } from '@/utils/convertDurationToTimeString'
+import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useContext } from 'react'
-import { PlayerContext } from '@/contexts/PlayerContext'
+import React from 'react'
 
-type EpisodeHome = {
+interface EpisodeHome {
 	id: string
 	title: string
-	thumbnail: string
 	members: string
 	publishedAt: string
+	thumbnail: string
 	url: string
 	duration: number
 	durationAsString: string
 }
 
-type HomeProps = {
+interface HomeProps {
 	latestEpisodes: Array<EpisodeHome>
 	allEpisodes: Array<EpisodeHome>
 }
 
-type EpisodeData = {
+interface EpisodeData {
 	id: string
 	title: string
-	thumbnail: string
 	members: string
 	published_at: string
-	file: {
-		duration: number
-		url: string
-	}
+	thumbnail: string
+	file: FileData
 }
 
-export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-	const { playList } = useContext(PlayerContext)
+interface FileData {
+	url: string
+	duration: number
+}
+
+const Home: React.FC<HomeProps> = ({ latestEpisodes, allEpisodes }) => {
+	const [, { playList }] = usePlayer()
 
 	const episodeList = [...latestEpisodes, ...allEpisodes]
 
@@ -46,7 +48,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 			id='homePage'
 			className='py-0 px-16 h-[calc(100vh-6.5rem)] overflow-y-scroll '
 		>
-			<section id='lastEpisodes'>
+			<section id='latestEpisodes'>
 				<h2 className='mt-12 mb-6'>Últimos lançamentos</h2>
 				<ul className='list-none grid grid-cols-2 gap-6'>
 					{latestEpisodes.map((episode, index) => {
@@ -60,8 +62,8 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 									height={192}
 									src={episode.thumbnail}
 									alt={episode.title}
-									style={{ objectFit: 'cover' }}
 									className='w-24 h-24 rounded-2xl'
+									style={{ objectFit: 'cover' }}
 								/>
 
 								<div
@@ -136,8 +138,8 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 											height={120}
 											src={episode.thumbnail}
 											alt={episode.title}
-											style={{ objectFit: 'cover' }}
 											className='w-10 h-10 rounded-lg'
+											style={{ objectFit: 'cover' }}
 										/>
 									</td>
 									<td className='py-3 px-4 border-b border-gray-100 text-sm'>
@@ -191,21 +193,20 @@ export const getStaticProps: GetStaticProps = async () => {
 		}
 	})
 
-	//format data before rendering it
 	const episodes = data.map((episode: EpisodeData) => {
 		return {
 			id: episode.id,
 			title: episode.title,
-			thumbnail: episode.thumbnail,
 			members: episode.members,
 			publishedAt: format(parseISO(episode.published_at), 'd MMM yy', {
 				locale: ptBR
 			}),
+			thumbnail: episode.thumbnail,
+			url: episode.file.url,
 			duration: Number(episode.file.duration),
 			durationAsString: convertDurationToTimeString(
 				Number(episode.file.duration)
-			),
-			url: episode.file.url
+			)
 		}
 	})
 
@@ -220,3 +221,5 @@ export const getStaticProps: GetStaticProps = async () => {
 		revalidate: 60 * 60 * 8 //a cada 8h
 	}
 }
+
+export default Home

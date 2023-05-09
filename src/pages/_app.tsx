@@ -1,18 +1,10 @@
-import type { AppProps } from 'next/app'
 import { Header } from '@/components/Header'
 import { Player } from '@/components/Player'
-import '../styles/global.css'
 import { PlayerContextProvider } from '@/contexts/PlayerContext'
+import type { AppProps } from 'next/app'
+import '../styles/global.css'
 
-type EpisodeApp = {
-	title: string
-	members: string
-	thumbnail: string
-	duration: number
-	url: string
-}
-
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<PlayerContextProvider>
 			<div className='flex'>
@@ -25,3 +17,5 @@ export default function App({ Component, pageProps }: AppProps) {
 		</PlayerContextProvider>
 	)
 }
+
+export default App
